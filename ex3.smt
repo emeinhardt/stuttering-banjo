@@ -6,8 +6,8 @@
 
 ;; These two lines are necessary for `(get-assertions)` down below but may
 ;; need to be commented out on the z3 Guide "Playground" codeboxes.
-(set-option :produce-assertions true)
-(set-option :interactive-mode true)
+;; (set-option :produce-assertions true)
+;; (set-option :interactive-mode true)
 
 
 ;; -------------------------------------------------------------------------------
@@ -22,7 +22,7 @@
 
 ;; Per earlier comment, this might need to be commented out if used in z3 Guide
 ;; Playground.
-(get-assertions) 
+;; (get-assertions) 
 ;; =>  ((not (f true))
 ;;      (f false))
 
@@ -44,16 +44,26 @@
 (assert (g true true))       ;; "g(T,T) = T"
 (check-sat)                  ;; => sat
 (push)                       ;; All assertions up to this point are now in one "chunk"
-(get-assertions)             ;; See earlier comment about disabling in the z3 Guide Playground
+;; (get-assertions)             ;; See earlier comment about disabling in the z3 Guide Playground
+;; => ((not (f true))
+;;     (f false)
+;;     (g true true))
 (echo "----")
 (echo "Now we add a constraint that contradicts previous ones...")
 (assert (not (g true true))) ;; "g(T,T) = F"
 (check-sat)                  ;; => unsat
-(get-assertions)             ;; See earlier comment about disabling in the z3 Guide Playground
+;; (get-assertions)             ;; See earlier comment about disabling in the z3 Guide Playground
+;; => ((not (f true))
+;;     (f false)
+;;     (g true true)
+;;     (not (g true true)))
 (echo "----")
 (echo "Pop the topmost ('working') chunk of assertions...")
 (pop)                        ;; Remove all assertions (there's just one) since the last `(push)`
-(get-assertions)             ;; See earlier comment about disabling in the z3 Guide Playground
+;; (get-assertions)             ;; See earlier comment about disabling in the z3 Guide Playground
+;; => ((not (f true))
+;;    (f false)
+;;    (g true true))
 (check-sat)                  ;; => sat
 (echo ":)")
 
